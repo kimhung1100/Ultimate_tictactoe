@@ -21,7 +21,7 @@ def minimax(board, depth, maximize):
                 continue
             next = State_2(board)
             next.act_move(move)
-            print(next)
+            # print(next)
             bestVal = max(bestVal, minimax(next, depth - 1, (not maximize)))
         return bestVal
     else:
@@ -31,25 +31,26 @@ def minimax(board, depth, maximize):
                 continue
             next = State_2(board)            
             next.act_move(move)
-            print(next)
+            # print(next)
             
             bestVal = min(bestVal, minimax(next, depth - 1, (not maximize)))
         return bestVal
     
     # Assuming you have an instance of the State class
-initial_state = State_2()
+# if name == '__main__':
+# initial_state = State_2()
 
-# Display the initial state
-print("Initial State:")
-print(initial_state)
+# # Display the initial state
+# print("Initial State:")
+# print(initial_state)
 
-# Test minimax with maximizing player (X)
-maximize_result = minimax(initial_state, depth=5, maximize=True)
-print("Minimax Result (Maximizing Player):", maximize_result)
+# # Test minimax with maximizing player (X)
+# maximize_result = minimax(initial_state, depth=5, maximize=True)
+# print("Minimax Result (Maximizing Player):", maximize_result)
 
-# Test minimax with minimizing player (O)
-minimize_result = minimax(initial_state, depth=5, maximize=False)
-print("Minimax Result (Minimizing Player):", minimize_result)
+# # Test minimax with minimizing player (O)
+# minimize_result = minimax(initial_state, depth=5, maximize=False)
+# print("Minimax Result (Minimizing Player):", minimize_result)
 
 
 
