@@ -45,9 +45,9 @@ def visitNodes(board):
             outcomes.append(0)
         if(bestVal < 0):
             outcomes.append(-1)
-        for m in board.generateMoves():
-            next = copy.deepcopy(board)
-            next.applyMove(m)
+        for m in board.get_valid_moves:
+            next = State_2(board)
+            next.act_move(m)
             visitNodes(next)
 
 board = State_2()
@@ -57,3 +57,4 @@ visitNodes(board)
 np.save("positions", np.array(positions))
 np.save("moveprobs", np.array(moveProbs))
 np.save("outcomes", np.array(outcomes))
+

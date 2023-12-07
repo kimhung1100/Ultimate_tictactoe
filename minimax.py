@@ -3,7 +3,7 @@ from state import *
 from misc import *
 
 
-def minimax(board, depth, maximize):
+def minimax(board, depth, alpha, beta, maximize):
     isTerminal, winner = board.game_over, board.game_result
     if depth == 0 or isTerminal:
         if winner == board.X:
@@ -13,30 +13,36 @@ def minimax(board, depth, maximize):
         else:
             return 0
     moves = board.get_valid_moves
+    print(moves)
 
-    if(maximize):
+    if maximize:
         bestVal = -999999999999
         for move in moves:
-            if(not board.is_valid_move(move)):
+            if not board.is_valid_move(move):
                 continue
-            next = State_2(board)
-            next.act_move(move)
-            # print(next)
-            bestVal = max(bestVal, minimax(next, depth - 1, (not maximize)))
+            next_board = State_2(board)
+            next_board.act_move(move)
+            # print(next_board)
+            bestVal = max(bestVal, minimax(next_board, depth - 1, alpha, beta, not maximize))
+            alpha = max(alpha, bestVal)
+            if beta <= alpha:
+                break
         return bestVal
     else:
         bestVal = 9999999999999
         for move in moves:
-            if(not board.is_valid_move(move)):
+            if not board.is_valid_move(move):
                 continue
-            next = State_2(board)            
-            next.act_move(move)
-            # print(next)
-            
-            bestVal = min(bestVal, minimax(next, depth - 1, (not maximize)))
+            next_board = State_2(board)
+            next_board.act_move(move)
+            # print(next_board)
+            bestVal = min(bestVal, minimax(next_board, depth - 1, alpha, beta, not maximize))
+            beta = min(beta, bestVal)
+            if beta <= alpha:
+                break
         return bestVal
-    
-    # Assuming you have an instance of the State class
+
+# Assuming you have an instance of the State class
 # if name == '__main__':
 # initial_state = State_2()
 
@@ -45,13 +51,9 @@ def minimax(board, depth, maximize):
 # print(initial_state)
 
 # # Test minimax with maximizing player (X)
-# maximize_result = minimax(initial_state, depth=5, maximize=True)
+# maximize_result = minimax(initial_state, depth=5, alpha=-float('inf'), beta=float('inf'), maximize=True)
 # print("Minimax Result (Maximizing Player):", maximize_result)
 
 # # Test minimax with minimizing player (O)
-# minimize_result = minimax(initial_state, depth=5, maximize=False)
+# minimize_result = minimax(initial_state, depth=5, alpha=-float('inf'), beta=float('inf'), maximize=False)
 # print("Minimax Result (Minimizing Player):", minimize_result)
-
-
-
-
