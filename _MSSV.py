@@ -1,5 +1,5 @@
 import copy
-
+import random
 import numpy as np
 from state import *
 from minimax_eval import *
@@ -235,8 +235,9 @@ def select_move(cur_state, remain_time):
         data_book_cache = load_data_book(data_book_filename)
 
     valid_moves = cur_state.get_valid_moves
+    random.shuffle(valid_moves)
     if len(valid_moves) > 9:
-        depth_minimax = 1
+        depth_minimax = 5
         # return np.random.choice(valid_moves)
     else:
         depth_minimax = 5
