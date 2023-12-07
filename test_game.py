@@ -165,4 +165,7 @@ def play_auto(player_X, player_O, rule = 1):
     
 
 play_auto('_MSSV', 'random_agent', 2)
+# 10 game win lien tiep O
+# 9 thang 1 thua
+
 # play_step_by_step('random_agent', 'random_agent', 2)

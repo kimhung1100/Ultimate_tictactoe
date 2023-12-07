@@ -1,3 +1,5 @@
+import copy
+
 import numpy as np
 from state import *
 from minimax_eval import *
@@ -194,12 +196,12 @@ def select_move(cur_state, remain_time):
         data_book_cache = load_data_book(data_book_filename)
 
     valid_moves = cur_state.get_valid_moves
-    print(valid_moves)
     if len(valid_moves) > 9:
         depth_minimax = 1
-        return np.random.choice(valid_moves)
+        # return np.random.choice(valid_moves)
     else:
         depth_minimax = 5
+
     if len(valid_moves) != 0:
         start_time = time.time()
         time_limit = 3
@@ -207,12 +209,12 @@ def select_move(cur_state, remain_time):
         best_score = -float('inf') if cur_state.player_to_move == cur_state.X else float('inf')
 
         for move in valid_moves:
-            next_state = State_2(cur_state)
+
+            next_state = copy.deepcopy(cur_state)
             if (not next_state.is_valid_move(move)):
                 continue
             next_state.act_move(move)
 
-            print("minimax call", depth_minimax)
             # Use minimax to evaluate the move
             score = minimax(next_state, depth=depth_minimax, alpha=-float('inf'), beta=float('inf'),
                             maximize=(cur_state.player_to_move == cur_state.X))
@@ -243,7 +245,6 @@ def select_move(cur_state, remain_time):
         return choice
 
 def minimax(state, depth, alpha, beta, maximize):
-    print("minimax called", depth)
     if depth == 0 or state.game_over:
         return heur2(state)
         # return heur3(state, data_book_filename)  # Use heur3 to evaluate the leaf nodes
@@ -253,7 +254,7 @@ def minimax(state, depth, alpha, beta, maximize):
     if maximize:
         max_eval = -float('inf')
         for move in valid_moves:
-            next_state = State_2(state)
+            next_state = copy.deepcopy(state)
             if (not next_state.is_valid_move(move)):
                 continue
             next_state.act_move(move)
@@ -266,7 +267,8 @@ def minimax(state, depth, alpha, beta, maximize):
     else:
         min_eval = float('inf')
         for move in valid_moves:
-            next_state = State_2(state)
+
+            next_state = copy.deepcopy(state)
             if (not next_state.is_valid_move(move)):
                 continue
             next_state.act_move(move)
