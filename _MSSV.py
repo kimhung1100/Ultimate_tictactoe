@@ -8,8 +8,47 @@ import json
 import numpy as np
 X = 1
 O = -1
+def game_result_sup(board):
+    row_sum = np.sum(board, 1)
+    col_sum = np.sum(board, 0)
+    diag_sum_topleft = board.trace()
+    diag_sum_topright = board[::-1].trace()
+
+    player_one_wins = any(row_sum == 3) + any(col_sum == 3)
+    player_one_wins += (diag_sum_topleft == 3) + (diag_sum_topright == 3)
+
+    if player_one_wins:
+        return X
+
+    player_two_wins = any(row_sum == -3) + any(col_sum == -3)
+    player_two_wins += (diag_sum_topleft == -3) + (diag_sum_topright == -3)
+
+    if player_two_wins:
+        return O
+
+    # if np.all(board != 0):
+    #     return 0.
+
+    # If not over, check who has more moves
+    count_X = np.sum(board == X)
+    count_O = np.sum(board == O)
+
+    if count_X > count_O:
+        return X
+    elif count_X < count_O:
+        return O
+    else:
+        return 0  # It's a draw if both players have made the same number of moves
+
+
+X = 1
+O = -1
 def heur2(state):
     score = 0
+    if state.game_over:
+        res = game_result_sup(state.global_cells.reshape(3, 3)) * 1000000
+        print("game_res", res)
+        return res
 
     # Heuristic 2: Evaluate the state based on features of the given board
     for i in range(9):
